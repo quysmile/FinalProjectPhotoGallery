@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ho Chi Minh City — Photo Gallery</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body onload="initGallery()">
+    <header class="site-header">
+        <div class="container">
+            <h1>Ho Chi Minh City — Landmarks Photo Gallery</h1>
+            <p class="lead">Hover or keyboard-focus the small images to preview them here. (Fill image URLs in the
+                <code>src</code> attributes.)
+            </p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Large display area -->
+        <div id="image" aria-live="polite">
+            Hover over an image below to display here.
+        </div>
+
+        <!-- Thumbnails gallery (6 images) -->
+        <section id="gallery" class="gallery" aria-label="Ho Chi Minh City landmarks">
+            <!-- src attributes filled with your links; alt texts are unique -->
+            <img class="preview" role="button"
+                src="https://tse4.mm.bing.net/th/id/OIP.QbZN1wP3qEDx7BgabYorRwHaE7?cb=thfc1&amp;rs=1&amp;pid=ImgDetMain&amp;o=7&amp;rm=3"
+                alt="Ben Thanh Market" />
+            <img class="preview" role="button"
+                src="https://th.bing.com/th/id/R.7d1f92ad2073567b4f1f2926b30521c4?rik=SXydhmCbgIUylA&amp;pid=ImgRaw&amp;r=0"
+                alt="Notre Dame Cathedral of Saigon" />
+            <img class="preview" role="button"
+                src="https://th.bing.com/th/id/R.36b1d492f31f36c23e621b7fdedac485?rik=qh4fgJxtBJibVQ&amp;pid=ImgRaw&amp;r=0"
+                alt="Independence Palace" />
+            <img class="preview" role="button"
+                src="https://daytripvietnam.com/wp-content/uploads/nguyen-hue-walking-street.jpg"
+                alt="Nguyen Hue Walking Street" />
+            <img class="preview" role="button"
+                src="https://th.bing.com/th/id/R.75d88fecbc8c319d64e118c6adac3cec?rik=WcyRezQeAIg3JA&amp;pid=ImgRaw&amp;r=0&amp;sres=1&amp;sresct=1"
+                alt="Bitexco Financial Tower skyline" />
+            <img class="preview" role="button"
+                src="https://tse2.mm.bing.net/th/id/OIP.g_e8zbUi_6Ho_hJBqcpdnQHaE8?cb=thfc1&amp;rs=1&amp;pid=ImgDetMain&amp;o=7&amp;rm=3"
+                alt="Saigon Central Post Office" />
+        </section>
+
+        <p class="instructions">
+            Accessibility notes: tabindex attributes are added by JavaScript on page load. Use Tab to focus thumbnails
+            and see the preview.
+        </p>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Ho Chi Minh City Gallery — Created for smile</p>
+        </div>
+    </footer>
+
+    <script>
+        function upDate(previewPic) {
+            console.log('upDate triggered — alt:', previewPic.alt, 'src:', previewPic.src);
+            var imageDiv = document.getElementById('image');
+            imageDiv.style.backgroundImage = "url('" + previewPic.src + "')";
+            imageDiv.textContent = previewPic.alt;
+        }
+
+        function undo() {
+            console.log('undo triggered');
+            var imageDiv = document.getElementById('image');
+            imageDiv.style.backgroundImage = "url('')";
+            imageDiv.textContent = "Hover over an image below to display here.";
+        }
+
+        function initGallery() {
+            console.log('initGallery: page loaded — initializing gallery');
+            var previews = document.querySelectorAll('.preview');
+
+            for (var i = 0; i < previews.length; i++) {
+                var thumb = previews[i];
+                thumb.setAttribute('tabindex', '0');
+
+                thumb.addEventListener('mouseover', function () {
+                    upDate(this);
+                });
+
+                thumb.addEventListener('mouseleave', function () {
+                    undo();
+                });
+
+                thumb.addEventListener('focus', function () {
+                    upDate(this);
+                });
+
+                thumb.addEventListener('blur', function () {
+                    undo();
+                });
+
+                thumb.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        upDate(this);
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
